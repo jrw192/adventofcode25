@@ -1,33 +1,65 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var fs = require("fs");
+const fs = __importStar(require("fs"));
 function part1() {
-    var input = fs.readFileSync('./day6.txt', 'utf8');
-    var rawLines = input.split('\n');
-    var lines = [];
-    for (var _i = 0, rawLines_1 = rawLines; _i < rawLines_1.length; _i++) {
-        var line = rawLines_1[_i];
-        var formatted = line.trim().split(' ').filter(function (v) { return v !== ''; });
+    const input = fs.readFileSync('./day6.txt', 'utf8');
+    const rawLines = input.split('\n');
+    const lines = [];
+    for (let line of rawLines) {
+        let formatted = line.trim().split(' ').filter((v) => v !== '');
         lines.push(formatted);
     }
     console.log(lines);
-    var ans = 0;
-    var opLine = lines[lines.length - 1];
-    for (var i = 0; i < opLine.length; i++) {
-        var op = opLine[i];
+    let ans = 0;
+    let opLine = lines[lines.length - 1];
+    for (let i = 0; i < opLine.length; i++) {
+        let op = opLine[i];
         switch (op) {
             case '*':
-                var product = 1;
-                for (var j = i; j < lines.length - 1; j++) {
-                    var line = lines[j];
+                let product = 1;
+                for (let j = i; j < lines.length - 1; j++) {
+                    const line = lines[j];
                     product *= Number(line[i]);
                 }
                 ans += product;
                 break;
             case '+':
-                var sum = 0;
-                for (var j = i; j < lines.length - 1; j++) {
-                    var line = lines[j];
+                let sum = 0;
+                for (let j = i; j < lines.length - 1; j++) {
+                    const line = lines[j];
                     sum += Number(line[i]);
                 }
                 ans += sum;
@@ -41,20 +73,19 @@ function part1() {
 ;
 // part1();
 function part2() {
-    var input = fs.readFileSync('./day6.txt', 'utf8');
-    var rawLines = input.split('\n');
-    var lines = [];
-    for (var _i = 0, rawLines_2 = rawLines; _i < rawLines_2.length; _i++) {
-        var line = rawLines_2[_i];
-        var formatted = line.split('').filter(function (v) { return v !== '' && v !== '\r'; });
+    const input = fs.readFileSync('./day6.txt', 'utf8');
+    const rawLines = input.split('\n');
+    const lines = [];
+    for (let line of rawLines) {
+        let formatted = line.split('').filter((v) => v !== '' && v !== '\r');
         console.log(JSON.stringify(formatted));
         lines.push(formatted);
     }
-    var ans = 0;
-    var opLine = lines[lines.length - 1];
-    var currentTotal = 0;
-    var op = '';
-    for (var i = 0; i < lines[0].length; i++) {
+    let ans = 0;
+    let opLine = lines[lines.length - 1];
+    let currentTotal = 0;
+    let op = '';
+    for (let i = 0; i < lines[0].length; i++) {
         if (i < opLine.length) {
             if (opLine[i] !== ' ') {
                 // new calculation started
@@ -69,15 +100,15 @@ function part2() {
                 }
             }
         }
-        var currentNumber = 0;
+        let currentNumber = 0;
         // get current number
-        for (var j = 0; j < lines.length - 1; j++) {
-            var line = lines[j];
-            var c = line[i];
+        for (let j = 0; j < lines.length - 1; j++) {
+            let line = lines[j];
+            let c = line[i];
             if (c === ' ') {
                 continue;
             }
-            var digit = Number(c);
+            let digit = Number(c);
             currentNumber = (currentNumber * 10) + digit;
         }
         // console.log('currentNumber', currentNumber);

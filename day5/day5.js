@@ -1,14 +1,46 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var fs = require("fs");
+const fs = __importStar(require("fs"));
 function part1() {
-    var input = fs.readFileSync('./day5.txt', 'utf8');
-    var lines = input.split('\n');
-    var ranges = [];
-    var ingredients = [];
-    var ing = false;
-    for (var _i = 0, lines_1 = lines; _i < lines_1.length; _i++) {
-        var line = lines_1[_i];
+    const input = fs.readFileSync('./day5.txt', 'utf8');
+    const lines = input.split('\n');
+    let ranges = [];
+    let ingredients = [];
+    let ing = false;
+    for (let line of lines) {
         line = line.trim();
         if (ing) {
             ingredients.push(Number(line));
@@ -17,32 +49,30 @@ function part1() {
             ing = true;
         }
         else {
-            var _a = line.split('-'), start_1 = _a[0], end_1 = _a[1];
-            ranges.push({ start: Number(start_1), end: Number(end_1) });
+            let [start, end] = line.split('-');
+            ranges.push({ start: Number(start), end: Number(end) });
         }
     }
-    ranges.sort(function (r1, r2) { return r1.start - r2.start; });
-    var mergedRanges = [];
-    var start = ranges[0].start;
-    var end = ranges[0].end;
-    for (var i = 1; i < ranges.length; i++) {
-        var currentRange = ranges[i];
+    ranges.sort((r1, r2) => r1.start - r2.start);
+    let mergedRanges = [];
+    let start = ranges[0].start;
+    let end = ranges[0].end;
+    for (let i = 1; i < ranges.length; i++) {
+        let currentRange = ranges[i];
         if (end >= currentRange.start) {
             end = Math.max(currentRange.end, end);
         }
         else {
-            mergedRanges.push({ start: start, end: end });
+            mergedRanges.push({ start, end });
             start = currentRange.start;
             end = currentRange.end;
         }
     }
-    mergedRanges.push({ start: start, end: end });
-    var ans = 0;
-    for (var _b = 0, ingredients_1 = ingredients; _b < ingredients_1.length; _b++) {
-        var ing_1 = ingredients_1[_b];
-        for (var _c = 0, ranges_1 = ranges; _c < ranges_1.length; _c++) {
-            var range = ranges_1[_c];
-            if (range.start <= ing_1 && range.end >= ing_1) {
+    mergedRanges.push({ start, end });
+    let ans = 0;
+    for (const ing of ingredients) {
+        for (const range of ranges) {
+            if (range.start <= ing && range.end >= ing) {
                 ans += 1;
                 break;
             }
@@ -53,41 +83,39 @@ function part1() {
 ;
 // part1();
 function part2() {
-    var input = fs.readFileSync('./day5.txt', 'utf8');
-    var lines = input.split('\n');
-    var ranges = [];
-    var ingredients = [];
-    for (var _i = 0, lines_2 = lines; _i < lines_2.length; _i++) {
-        var line = lines_2[_i];
+    const input = fs.readFileSync('./day5.txt', 'utf8');
+    const lines = input.split('\n');
+    let ranges = [];
+    let ingredients = [];
+    for (let line of lines) {
         line = line.trim();
         if (line === '') {
             break;
         }
         else {
-            var _a = line.split('-'), start_2 = _a[0], end_2 = _a[1];
-            ranges.push({ start: Number(start_2), end: Number(end_2) });
+            let [start, end] = line.split('-');
+            ranges.push({ start: Number(start), end: Number(end) });
         }
     }
-    ranges.sort(function (r1, r2) { return r1.start - r2.start; });
-    var mergedRanges = [];
-    var start = ranges[0].start;
-    var end = ranges[0].end;
-    for (var i = 1; i < ranges.length; i++) {
-        var currentRange = ranges[i];
+    ranges.sort((r1, r2) => r1.start - r2.start);
+    let mergedRanges = [];
+    let start = ranges[0].start;
+    let end = ranges[0].end;
+    for (let i = 1; i < ranges.length; i++) {
+        let currentRange = ranges[i];
         if (end >= currentRange.start) {
             end = Math.max(currentRange.end, end);
         }
         else {
-            mergedRanges.push({ start: start, end: end });
+            mergedRanges.push({ start, end });
             start = currentRange.start;
             end = currentRange.end;
         }
     }
-    mergedRanges.push({ start: start, end: end });
+    mergedRanges.push({ start, end });
     //  console.log('mergedRanges', mergedRanges);
-    var ans = 0;
-    for (var _b = 0, mergedRanges_1 = mergedRanges; _b < mergedRanges_1.length; _b++) {
-        var range = mergedRanges_1[_b];
+    let ans = 0;
+    for (const range of mergedRanges) {
         ans += (range.end - range.start + 1);
     }
     console.log('ans', ans);
